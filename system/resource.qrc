@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/new">
+        <file>image/nuc.ico</file>
+        <file>image/background.png</file>
+        <file>image/nucfont.jpg</file>
+        <file>image/airport.jpg</file>
+        <file>image/adminman.jpg</file>
+        <file>image/userman.jpg</file>
+        <file>image/seek.jpg</file>
+        <file>image/userlocation.jpeg</file>
+        <file>image/person.jpg</file>
+    </qresource>
+</RCC>

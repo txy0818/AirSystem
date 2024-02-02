@@ -1,0 +1,1092 @@
+#include "maninterface.h"
+#include "ui_maninterface.h"
+#include <QPainter>
+#include <QPixmap>
+#include <QTextEdit>
+#include <QDebug>
+#include <QPushButton>
+#include <QFile>
+#include "airplane.h"
+#include <QMessageBox>
+#include <QComboBox>
+#include <QVBoxLayout>
+
+void ManInterface::flushUser(QTableWidget* tableWidget){
+    QFile file(userPath); // 替换为你的文本文件路径
+    if (!file.open(QIODevice::ReadOnly)) {
+        // 文件打开失败，处理错误
+        qDebug() << "fail to open the file";
+        return;
+    }
+
+    // 读取文件内容
+    QTextStream in(&file);
+    int row = 0;
+
+    // 逐行读取文件内容并加载到 QTableWidget 中
+    while (!in.atEnd()) {
+        QString line = in.readLine();
+        QStringList fields = line.split(" ", QString::SkipEmptyParts); // 假设数据是用制表符分隔的，可以根据实际情况修改分隔符
+
+        // 如果你的 QTableWidget 尚未设置列数和行数，可以根据数据来设置
+        if (tableWidget->columnCount() < fields.size()) {
+            tableWidget->setColumnCount(fields.size());
+        }
+       tableWidget->insertRow(row);
+
+        // 将数据逐个添加到 QTableWidget 的单元格中
+        for (int column = 0; column < tableWidget->columnCount(); ++column) {
+            QTableWidgetItem *item = new QTableWidgetItem(fields[column]);
+
+            QFont font;
+            font.setPointSize(20);
+            item->setFont(font);
+            item->setTextAlignment(Qt::AlignCenter);
+            item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+
+            tableWidget->setItem(row, column, item);
+        }
+        row++;
+    }
+
+    file.close(); // 关闭文件
+}
+
+
+void ManInterface::flushInterface(QTableWidget* tableWidget){
+    int rowCount = tableWidget->rowCount();
+
+    // 从最后一行开始逐行删除
+    for (int i = rowCount - 1; i >= 0; --i) {
+        tableWidget->removeRow(i);
+    }
+
+
+    QFile file(airplanePath);
+    if (!file.open(QIODevice::ReadOnly)) {
+        // 文件打开失败，处理错误
+        qDebug() << "fail to open the file";
+        return;
+    }
+
+    // 读取文件内容
+    QTextStream in(&file);
+    int row = 0;
+
+    // 逐行读取文件内容并加载到 QTableWidget 中
+    while (!in.atEnd()) {
+        QString line = in.readLine();
+        QStringList fields = line.split(" ", QString::SkipEmptyParts); // 假设数据是用制表符分隔的，可以根据实际情况修改分隔符
+
+        // 如果你的 QTableWidget 尚未设置列数和行数，可以根据数据来设置
+//        if (tableWidget->columnCount() < fields.size()) {
+//            tableWidget->setColumnCount(fields.size());
+//        }
+        tableWidget->insertRow(row);
+
+        // 将数据逐个添加到 QTableWidget 的单元格中
+        for (int column = 0; column < tableWidget->columnCount(); ++column) {
+            QTableWidgetItem *item = new QTableWidgetItem(fields[column]);
+
+            QFont font;
+            font.setPointSize(12); // 设置字体大小为 12
+            item->setFont(font);
+            item->setTextAlignment(Qt::AlignCenter);
+            item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+
+            tableWidget->setItem(row, column, item);
+        }
+        row++;
+    }
+
+    file.close(); // 关闭文件
+}
+
+
+ManInterface::ManInterface(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::ManInterface)
+{
+    ui->setupUi(this);
+
+    ui->tabWidget->move(0,0);
+    ui->tabWidget->resize(this->size());
+    ui->tabWidget->setStyleSheet("QTabBar::tab { background-color: lightblue; }");
+
+    QWidget *tab4Content = ui->tabWidget->widget(3); // 获取第四个选项卡的页面
+    ui->tabWidget->setCurrentIndex(3);
+
+    if (tab4Content) {
+        // 假设 label 是第四个选项卡页面上的 QLabel 控件
+        QLabel *label = tab4Content->findChild<QLabel*>("label"); // 使用控件的名称或对象名称查找控件
+
+        if (label) {
+            label->move(20, 20); // 移动标签
+            label->setFixedSize(tab4Content->width()/2, tab4Content->height());
+
+            QPixmap image(":/new/image/airport.jpg"); // 加载图片
+
+            // 设置图片并让其适应标签大小
+            label->setPixmap(image.scaled(label->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+
+            // 设置标签大小策略
+            label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+
+            // 允许图片缩放以适应标签
+            label->setScaledContents(true);
+        }
+
+        QLineEdit *textEdit = tab4Content->findChild<QLineEdit*>("lineEdit"); // 使用控件的名称或对象名称查找控件
+
+            if (textEdit) {
+                textEdit->setFixedSize(300,40); // 设置 QTextEdit 大小
+                textEdit->move(tab4Content->width()/2 + 50, 200); // 移动 QTextEdit 控件
+            }
+
+            QPushButton *pushButton = tab4Content->findChild<QPushButton*>("pushButton4"); // 使用控件的名称或对象名称查找控件
+
+                if (pushButton) {
+                    pushButton->setFixedSize(150,80);
+                    pushButton->move(tab4Content->width()-300,
+                                     tab4Content->height()-200); // 移动 QPushButton 控件
+                    pushButton->setStyleSheet("background-color: lightblue;");
+
+                    connect(pushButton, &QPushButton::clicked, [=](){
+                        this->close();
+                    });
+                }
+
+                QPushButton *pushButtonBack = tab4Content->findChild<QPushButton*>("pushButtonBack"); // 使用控件的名称或对象名称查找控件
+
+                    if (pushButtonBack) {
+                        pushButtonBack->setFixedSize(150,80);
+                        pushButtonBack->move(tab4Content->width()-300,
+                                         tab4Content->height()-300); // 移动 QPushButton 控件
+                        pushButtonBack->setStyleSheet("background-color: lightblue;");
+
+                        connect(pushButtonBack, &QPushButton::clicked, [=](){
+                            emit back();
+                        });
+                    }
+
+
+    }
+
+
+    QWidget *tab3Content = ui->tabWidget->widget(2);
+
+    if (tab3Content) {
+
+        QLabel *label = tab3Content->findChild<QLabel*>("label2"); // 使用控件的名称或对象名称查找控件
+
+        if (label) {
+
+            label->move(0, 0); // 移动标签
+            label->setFixedSize(tab4Content->width(), tab4Content->height());
+
+            QPixmap image(":/new/image/adminman.jpg"); // 加载图片
+
+            // 设置图片并让其适应标签大小
+            label->setPixmap(image.scaled(label->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+
+            // 设置标签大小策略
+            label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+
+            // 允许图片缩放以适应标签
+            label->setScaledContents(true);
+
+            label->lower();
+        }
+
+
+
+        QPushButton *pushButtonBack = tab3Content->findChild<QPushButton*>("pushButtonBack3"); // 使用控件的名称或对象名称查找控件
+
+            if (pushButtonBack) {
+                pushButtonBack->setFixedSize(150,80);
+                pushButtonBack->move(tab4Content->width()-300,
+                                 tab4Content->height()-300); // 移动 QPushButton 控件
+                pushButtonBack->setStyleSheet("background-color: lightblue;");
+
+                connect(pushButtonBack, &QPushButton::clicked, [=](){
+                    emit back();
+                });
+            }
+
+        QPushButton *pushButton = tab3Content->findChild<QPushButton*>("pushButton3"); // 使用控件的名称或对象名称查找控件
+            if (pushButton) {
+                pushButton->setFixedSize(150,80);
+                pushButton->move(tab4Content->width()-300,
+                                 tab4Content->height()-200); // 移动 QPushButton 控件
+                pushButton->setStyleSheet("background-color: lightblue;");
+
+                connect(pushButton, &QPushButton::clicked, [=](){
+                    this->close();
+                });
+            }
+
+
+            QTableWidget *tableWidget = tab3Content->findChild<QTableWidget*>("tableWidget"); // 使用控件的名称或对象名称查找控件
+
+            if (tableWidget) {
+
+
+                tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+                tableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+                tableWidget->setStyleSheet("QTableWidget { background-color: lightblue; }");
+
+                tableWidget->move(20, 20); // 移动 QTableWidget 控件
+
+                QFile file(airplanePath); // 替换为你的文本文件路径
+                if (!file.open(QIODevice::ReadOnly)) {
+                    // 文件打开失败，处理错误
+                    qDebug() << "fail to open the file";
+                    return;
+                }
+
+                // 读取文件内容
+                QTextStream in(&file);
+                int row = 0;
+
+                // 逐行读取文件内容并加载到 QTableWidget 中
+                while (!in.atEnd()) {
+                    QString line = in.readLine();
+                    QStringList fields = line.split(" ", QString::SkipEmptyParts); // 假设数据是用空格分隔的，可以根据实际情况修改分隔符
+
+                    // 如果你的 QTableWidget 尚未设置列数和行数，可以根据数据来设置
+
+                    if (tableWidget->columnCount() < fields.size()) {
+                        tableWidget->setColumnCount(fields.size());
+                    }
+                    tableWidget->insertRow(row);
+
+                    // 将数据逐个添加到 QTableWidget 的单元格中
+                    for (int column = 0; column < fields.size(); ++column) {
+                        QTableWidgetItem *item = new QTableWidgetItem(fields[column]);
+
+                        QFont font;
+                        font.setPointSize(12); // 设置字体大小为 12
+                        item->setFont(font);
+                        item->setTextAlignment(Qt::AlignCenter);
+                        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+
+                        tableWidget->setItem(row, column, item);
+                    }
+                    row++;
+                }
+
+                file.close(); // 关闭文件
+
+
+
+                QPushButton *pushButtonchange = tab3Content->findChild<QPushButton*>("pushButtonChange"); // 使用控件的名称或对象名称查找控件
+                    if (pushButtonchange) {
+
+                        pushButtonchange->move(50,
+                                         tab4Content->height()-200); // 移动 QPushButton 控件
+                        pushButtonchange->setStyleSheet("background-color: lightblue;");
+
+                        connect(pushButtonchange, &QPushButton::clicked, [=](){
+                            // 遍历 QTableWidget 中的所有单元格
+
+
+                            for (int row = 0; row < tableWidget->rowCount(); ++row) {
+                                for (int col = 0; col < tableWidget->columnCount(); ++col) {
+                                    QTableWidgetItem *item = tableWidget->item(row, col);
+                                    if (item) {
+                                        item->setFlags(item->flags() | Qt::ItemIsEditable); // 设置为可编辑
+                                    }
+//                                    else {
+//                                        tableWidget->setItem(row, col, new QTableWidgetItem("")); // 创建一个新的可编辑的 QTableWidgetItem
+//                                    }
+                                }
+                            }
+
+
+                        });
+                    }
+
+
+                QPushButton *pushButtonRight = tab3Content->findChild<QPushButton*>("pushButtonRight"); // 使用控件的名称或对象名称查找控件
+                    if (pushButtonRight) {
+
+                        pushButtonRight->move(150,
+                                         tab4Content->height()-200); // 移动 QPushButton 控件
+                        pushButtonRight->setStyleSheet("background-color: lightblue;");
+
+                        connect(pushButtonRight, &QPushButton::clicked, [=](){
+                            // 遍历 QTableWidget 中的所有单元格
+                            for (int row = 0; row < tableWidget->rowCount(); ++row) {
+                                for (int col = 0; col < tableWidget->columnCount(); ++col) {
+                                    QTableWidgetItem *item = tableWidget->item(row, col);
+                                    if (item) {
+                                        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+                                    }
+//                                    else {
+//                                        tableWidget->setItem(row, col, new QTableWidgetItem("")); // 创建一个新的可编辑的 QTableWidgetItem
+//                                    }
+                                }
+                            }
+
+
+
+
+
+                            // 遍历 QTableWidget 中的所有单元格
+                            for (int row = 0; row < tableWidget->rowCount(); ++row) {
+                                for (int col = 0; col < tableWidget->columnCount(); ++col) {
+                                    QTableWidgetItem *item = tableWidget->item(row, col);
+                                    if (item && item->text() =="") {
+                                        QMessageBox::warning(this, "修改为空", "不能实现");
+                                        flushInterface(tableWidget);
+                                        return;
+                                    }
+                                }
+
+                            }
+
+
+                            int c = 0;
+                            for (int row = 0; row < tableWidget->rowCount()-1; ++row){
+                                QTableWidgetItem *item = tableWidget->item(row, c);
+                                for(int j = row + 1;j <= tableWidget->rowCount()-1; j++){
+
+                                        QTableWidgetItem *item1 = tableWidget->item(j, c);
+                                        if(item->text() == item1->text()){
+                                            QMessageBox::warning(this, "航班号唯一", "不能实现");
+                                            flushInterface(tableWidget);
+                                            return;
+                                        }
+
+
+                                }
+                            }
+
+                            QFile file(airplanePath); // 替换为你想要保存数据的文本文件路径
+                            if (!file.open(QIODevice::WriteOnly)) {
+                                // 文件打开失败，处理错误
+                                qDebug() << "fail to open the file";
+                                return;
+                            }
+
+                           QTextStream out(&file);
+                           for (int row = 0; row < tableWidget->rowCount(); ++row) {
+                               for (int col = 0; col < tableWidget->columnCount(); ++col) {
+                                   QTableWidgetItem *item = tableWidget->item(row, col);
+                                   if (item) {
+
+                                       out<< item->text() << " ";
+                                   }
+
+                               }
+                               out<<"\n";
+
+                           }
+                            file.close(); // 关闭文件
+
+
+                            flushInterface(tableWidget);
+
+                        });
+
+                    }
+
+
+                    QPushButton *pushButtonAdd = tab3Content->findChild<QPushButton*>("pushButtonAdd"); // 使用控件的名称或对象名称查找控件
+                        if (pushButtonAdd) {
+
+                            pushButtonAdd->move(250,
+                                             tab4Content->height()-200); // 移动 QPushButton 控件
+                            pushButtonAdd->setStyleSheet("background-color: lightblue;");
+
+                            connect(pushButtonAdd, &QPushButton::clicked, [=](){
+                                int rowCount = tableWidget->rowCount();
+                                    tableWidget->insertRow(rowCount);//insertRow() 方法中的参数表示要插入的新行的索引位置
+
+                                    for (int col = 0; col < tableWidget->columnCount(); ++col) {
+                                        QTableWidgetItem *item = new QTableWidgetItem("");
+                                        // 设置新建的 QTableWidgetItem 为可编辑状态，保持字体格式与先前一致
+                                        if (rowCount > 0) {
+                                            QTableWidgetItem *prevItem = tableWidget->item(rowCount - 1, col);
+                                            if (prevItem) {
+                                                QFont font = prevItem->font();
+                                                item->setTextAlignment(Qt::AlignCenter);
+                                                item->setFont(font);
+                                            }
+                                        }
+                                        else{
+                                            QFont font;
+                                            font.setPointSize(12); // 设置字体大小为 12
+                                            item->setFont(font);
+                                            item->setTextAlignment(Qt::AlignCenter);
+                                        }
+                                        item->setFlags(item->flags() | Qt::ItemIsEditable); // 设置为可编辑
+                                        tableWidget->setItem(rowCount, col, item);
+                                    }
+                            });
+                        }
+
+                    QPushButton *pushButtonRight1 = tab3Content->findChild<QPushButton*>("pushButtonRight1"); // 使用控件的名称或对象名称查找控件
+                        if (pushButtonRight1) {
+
+                            pushButtonRight1->move(350,
+                                             tab4Content->height()-200); // 移动 QPushButton 控件
+                            pushButtonRight1->setStyleSheet("background-color: lightblue;");
+
+                            connect(pushButtonRight1, &QPushButton::clicked, [=](){
+                                int rowCount = tableWidget->rowCount();
+                                    int colCount = tableWidget->columnCount();
+                                    bool rowIncomplete = false;
+
+                                    // 检查最后一行是否写完整
+                                    for (int col = 0; col < colCount; ++col) {
+                                        QTableWidgetItem *item = tableWidget->item(rowCount - 1, col);
+                                        if (!item || item->text().isEmpty()) {
+                                            rowIncomplete = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if (rowIncomplete) {
+                                        QMessageBox::warning(this, "Incomplete Row", "Please fill in all cells of the row.");
+                                        for (int col = 0; col < colCount; ++col) {
+                                            QTableWidgetItem *item = tableWidget->item(rowCount - 1, col);
+                                            if (item) {
+                                                delete item;
+                                            }
+                                        }
+                                        tableWidget->removeRow(rowCount - 1);
+                                    } else {
+
+                                        int c = 0;
+                                        for (int row = 0; row < tableWidget->rowCount()-1; ++row){
+                                            QTableWidgetItem *item = tableWidget->item(row, c);
+                                            for(int j = row + 1;j <= tableWidget->rowCount()-1; j++){
+
+                                                    QTableWidgetItem *item1 = tableWidget->item(j, c);
+                                                    if(item->text() == item1->text()){
+                                                        QMessageBox::warning(this, "航班号唯一", "不能实现");
+                                                        flushInterface(tableWidget);
+
+                                                        return;
+                                                    }
+
+                                            }
+
+
+                                        }
+
+                                                bool duplicateFound = true;
+                                                QFile file(airplanePath);
+                                                if (!file.open(QIODevice::ReadOnly)) {
+                                                    qDebug() << "fail to open the file";
+                                                    return;
+                                                }
+                                                    QTextStream in(&file);
+                                                    while (!in.atEnd()) {
+                                                        duplicateFound = true;
+                                                        QString line = in.readLine();
+                                                        QStringList stringList = line.split(" ", QString::SkipEmptyParts);
+                                                        for (int col = 0; col < tableWidget->columnCount(); ++col) {
+
+                                                            QTableWidgetItem *item = tableWidget->item(rowCount - 1, col);
+
+                                                            if (item->text() != stringList[col]) {
+                                                                duplicateFound = false;
+                                                                continue;
+                                                            }
+                                                        }
+                                                    }
+                                                    file.close();
+
+                                                if (duplicateFound) {
+                                                    QMessageBox::warning(this, "Duplicate Data", "Data already exists in the file.");
+                                                    for (int col = 0; col < colCount; ++col) {
+                                                        QTableWidgetItem *item = tableWidget->item(rowCount - 1, col);
+                                                        if (item) {
+                                                            delete item;
+                                                        }
+                                                    }
+                                                    tableWidget->removeRow(rowCount - 1);
+                                                }
+
+                                        else{
+                                                  QFile file1(airplanePath); // 替换为你想要保存数据的文本文件路径
+                                                    if (!file1.open(QIODevice::Append)) {
+                                                        // 文件打开失败，处理错误
+                                                        qDebug() << "fail to open the file";
+                                                        return;
+                                                    }
+
+                                                    QTextStream out(&file1);
+
+                                                    // 获取最后一行的数据并写入到文本文件中
+                                                    for (int col = 0; col < colCount; ++col) {
+                                                        QTableWidgetItem *item = tableWidget->item(rowCount - 1, col);
+                                                        if (item) {
+                                                            out << item->text() << " "; // 将单元格的数据写入到文本文件中
+                                                        }
+                                                    }
+                                                    out << "\n"; // 换行
+
+                                                    file1.close(); // 关闭文件
+
+                                                    // 设置最后一行为只读状态
+                                                    for (int col = 0; col < colCount; ++col) {
+                                                        QTableWidgetItem *item = tableWidget->item(rowCount - 1, col);
+                                                        if (item) {
+                                                            item->setFlags(item->flags() & ~Qt::ItemIsEditable); // 设置为只读
+                                                        }
+                                                    }
+                                                    flushInterface(tableWidget);
+                                           }
+
+                                      }
+
+                            });
+                        }
+
+                        QComboBox *comboBox = tab3Content->findChild<QComboBox*>("comboBox"); // 使用控件的名称或对象名称查找控件
+
+                        if (comboBox) {
+                            comboBox->move(50, tab4Content->height()-150); // 移动标签
+                        }
+
+                        QLineEdit* lineEditSeek = tab3Content->findChild<QLineEdit*>("lineEditSeek");
+                        if (lineEditSeek) {
+                            lineEditSeek->move(150, tab4Content->height()-150); // 移动标签
+                        }
+
+
+                        QPushButton *pushButtonRight2 = tab3Content->findChild<QPushButton*>("pushButtonRight2"); // 使用控件的名称或对象名称查找控件
+                            if (pushButtonRight2) {
+
+                                pushButtonRight2->move(250,
+                                                 tab4Content->height()-150); // 移动 QPushButton 控件
+                                pushButtonRight2->setStyleSheet("background-color: lightblue;");
+
+                                connect(pushButtonRight2, &QPushButton::clicked, [=](){
+
+
+                                    QString selectedType = comboBox->currentText();
+                                    int index = comboBox->currentIndex();
+                                    QString newData = lineEditSeek->text();
+                                    lineEditSeek->clear();
+
+                                    // 从最后一行开始逐行删除
+                                    for (int i = tableWidget->rowCount() - 1; i >= 0; --i) {
+                                        tableWidget->removeRow(i);
+                                    }
+
+                                    QFile file(airplanePath);
+                                    if (!file.open(QIODevice::ReadOnly)) {
+                                        qDebug() << "fail to open the file";
+                                        return;
+                                    }
+                                    QTextStream in(&file);
+                                    int row = 0;
+                                    while (!in.atEnd()) {
+
+                                        QString line = in.readLine();
+                                        QStringList stringList = line.split(" ", QString::SkipEmptyParts);
+                                        if(stringList[index] == newData){
+
+                                            if (tableWidget->columnCount() < stringList.size()) {
+                                                tableWidget->setColumnCount(stringList.size());
+                                            }
+                                            tableWidget->insertRow(row);
+
+                                            // 将数据逐个添加到 QTableWidget 的单元格中
+                                            for (int column = 0; column < tableWidget->columnCount(); ++column) {
+                                                QTableWidgetItem *item = new QTableWidgetItem(stringList[column]);
+
+                                                QFont font;
+                                                font.setPointSize(12); // 设置字体大小为 12
+                                                item->setFont(font);
+                                                item->setTextAlignment(Qt::AlignCenter);
+                                                item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+
+                                                tableWidget->setItem(row, column, item);
+                                            }
+                                            row++;
+                                        }
+                                    }
+
+                                    if(row == 0){
+                                        QMessageBox::warning(this, "number", "no exist");
+
+                                    }
+                                    file.close();
+
+                                });
+                            }
+
+                        QPushButton *pushButtonRight3 = tab3Content->findChild<QPushButton*>("pushButtonRight3"); // 使用控件的名称或对象名称查找控件
+                            if (pushButtonRight3) {
+
+                                pushButtonRight3->move(350,
+                                                 tab4Content->height()-150); // 移动 QPushButton 控件
+                                pushButtonRight3->setStyleSheet("background-color: lightblue;");
+
+                                connect(pushButtonRight3, &QPushButton::clicked, [=](){
+
+                                    int rowCount = tableWidget->rowCount();
+
+                                    // 从最后一行开始逐行删除
+                                    for (int i = rowCount - 1; i >= 0; --i) {
+                                        tableWidget->removeRow(i);
+                                    }
+
+
+                                    QFile file(airplanePath); // 替换为你的文本文件路径
+                                    if (!file.open(QIODevice::ReadOnly)) {
+                                        // 文件打开失败，处理错误
+                                        qDebug() << "fail to open the file";
+                                        return;
+                                    }
+
+                                    // 读取文件内容
+                                    QTextStream in(&file);
+                                    int row = 0;
+
+                                    // 逐行读取文件内容并加载到 QTableWidget 中
+                                    while (!in.atEnd()) {
+                                        QString line = in.readLine();
+                                        QStringList fields = line.split(" ", QString::SkipEmptyParts); // 假设数据是用制表符分隔的，可以根据实际情况修改分隔符
+
+                                        // 如果你的 QTableWidget 尚未设置列数和行数，可以根据数据来设置
+                                        if (tableWidget->columnCount() < fields.size()) {
+                                            tableWidget->setColumnCount(fields.size());
+                                        }
+                                        tableWidget->insertRow(row);
+
+                                        // 将数据逐个添加到 QTableWidget 的单元格中
+                                        for (int column = 0; column < fields.size(); ++column) {
+                                            QTableWidgetItem *item = new QTableWidgetItem(fields[column]);
+
+                                            QFont font;
+                                            font.setPointSize(12); // 设置字体大小为 12
+                                            item->setFont(font);
+                                            item->setTextAlignment(Qt::AlignCenter);
+                                            item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+
+                                            tableWidget->setItem(row, column, item);
+                                        }
+                                        row++;
+                                    }
+
+                                    file.close(); // 关闭文件
+                                });
+                            }
+
+
+
+
+            }
+
+
+
+
+    }
+
+    QWidget *tab2Content = ui->tabWidget->widget(1); // 获取第四个选项卡的页面
+
+    if (tab2Content) {
+
+
+        QLabel *label = tab2Content->findChild<QLabel*>("label1"); // 使用控件的名称或对象名称查找控件
+
+        if (label) {
+
+            label->move(0, 0); // 移动标签
+            label->setFixedSize(tab4Content->width(), tab4Content->height());
+
+            QPixmap image(":/new/image/userman.jpg"); // 加载图片
+
+            // 设置图片并让其适应标签大小
+            label->setPixmap(image.scaled(label->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+
+            // 设置标签大小策略
+            label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+
+            // 允许图片缩放以适应标签
+            label->setScaledContents(true);
+
+            label->lower();
+        }
+
+        QPushButton *pushButtonBack = tab2Content->findChild<QPushButton*>("pushButtonBack2"); // 使用控件的名称或对象名称查找控件
+
+            if (pushButtonBack) {
+                pushButtonBack->setFixedSize(150,80);
+                pushButtonBack->move(tab4Content->width()-200,
+                                 tab4Content->height()-300); // 移动 QPushButton 控件
+                pushButtonBack->setStyleSheet("background-color: lightblue;");
+
+                connect(pushButtonBack, &QPushButton::clicked, [=](){
+                    emit back();
+                });
+            }
+
+        QPushButton *pushButton = tab2Content->findChild<QPushButton*>("pushButton2"); // 使用控件的名称或对象名称查找控件
+
+            if (pushButton) {
+                pushButton->setFixedSize(150,80);
+                pushButton->move(tab4Content->width()-200,
+                                 tab4Content->height()-200); // 移动 QPushButton 控件
+                pushButton->setStyleSheet("background-color: lightblue;");
+
+                connect(pushButton, &QPushButton::clicked, [=](){
+                    this->close();
+                });
+            }
+
+
+
+            QTableWidget *tableWidget = tab2Content->findChild<QTableWidget*>("tableWidget2"); // 使用控件的名称或对象名称查找控件
+
+            if (tableWidget) {
+
+                tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::Stretch);
+
+                tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+                tableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+                tableWidget->setStyleSheet("QTableWidget { background-color: lightblue; }");
+
+
+
+                tableWidget->move(this->width()/2 - tableWidget->width()/2, 20); // 移动 QTableWidget 控件
+
+                QFile file(userPath); // 替换为你的文本文件路径
+                if (!file.open(QIODevice::ReadOnly)) {
+                    // 文件打开失败，处理错误
+                    qDebug() << "fail to open the file";
+                    return;
+                }
+
+                // 读取文件内容
+                QTextStream in(&file);
+                int row = 0;
+
+                // 逐行读取文件内容并加载到 QTableWidget 中
+                while (!in.atEnd()) {
+                    QString line = in.readLine();
+                    QStringList fields = line.split(" ", QString::SkipEmptyParts); // 假设数据是用制表符分隔的，可以根据实际情况修改分隔符
+
+                    // 如果你的 QTableWidget 尚未设置列数和行数，可以根据数据来设置
+                    if (tableWidget->columnCount() < fields.size()) {
+                        tableWidget->setColumnCount(fields.size());
+                    }
+                   tableWidget->insertRow(row);
+
+                    // 将数据逐个添加到 QTableWidget 的单元格中
+                    for (int column = 0; column < tableWidget->columnCount(); ++column) {
+                        QTableWidgetItem *item = new QTableWidgetItem(fields[column]);
+
+                        QFont font;
+                        font.setPointSize(20);
+                        item->setFont(font);
+                        item->setTextAlignment(Qt::AlignCenter);
+                        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+
+                        tableWidget->setItem(row, column, item);
+                    }
+                    row++;
+                }
+
+                file.close(); // 关闭文件
+
+
+
+                QPushButton *pushButtonEdit = tab2Content->findChild<QPushButton*>("pushButtonEdit"); // 使用控件的名称或对象名称查找控件
+
+                    if (pushButtonEdit) {
+                        pushButtonEdit->setFixedSize(150,80);
+                        pushButtonEdit->move(tab4Content->width()-200,
+                                         tab4Content->height()-500); // 移动 QPushButton 控件
+                        pushButtonEdit->setStyleSheet("background-color: lightblue;");
+
+                        connect(pushButtonEdit, &QPushButton::clicked, [=](){
+                            int row = 0;
+                                for (int col = 0; col < tableWidget->columnCount(); ++col) {
+                                    QTableWidgetItem *item = tableWidget->item(row, col);
+                                    if (item) {
+                                        item->setFlags(item->flags() | Qt::ItemIsEditable); // 设置为可编辑
+                                    }
+        //                                    else {
+        //                                        tableWidget->setItem(row, col, new QTableWidgetItem("")); // 创建一个新的可编辑的 QTableWidgetItem
+        //                                    }
+                                }
+
+                        });
+                    }
+
+
+
+                QPushButton *pushButtonEdit1 = tab2Content->findChild<QPushButton*>("pushButtonEdit1"); // 使用控件的名称或对象名称查找控件
+
+                    if (pushButtonEdit1) {
+                        pushButtonEdit1->setFixedSize(150,80);
+                        pushButtonEdit1->move(tab4Content->width()-200,
+                                         tab4Content->height()-400); // 移动 QPushButton 控件
+                        pushButtonEdit1->setStyleSheet("background-color: lightblue;");
+
+                        connect(pushButtonEdit1, &QPushButton::clicked, [=](){
+                            // 遍历 QTableWidget 中的所有单元格
+                            for (int row = 0; row < tableWidget->rowCount(); ++row) {
+                                for (int col = 0; col < tableWidget->columnCount(); ++col) {
+                                    QTableWidgetItem *item = tableWidget->item(row, col);
+                                    if (item) {
+                                        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+                                    }
+
+                                }
+                            }
+
+
+
+                            QFile file(userPath); // 替换为你想要保存数据的文本文件路径
+                            if (!file.open(QIODevice::WriteOnly)) {
+                                // 文件打开失败，处理错误
+                                qDebug() << "fail to open the file";
+                                return;
+                            }
+
+                           QTextStream out(&file);
+
+                            // 遍历 QTableWidget 中的所有单元格
+                            for (int row = 0; row < tableWidget->rowCount(); ++row) {
+                                for (int col = 0; col < tableWidget->columnCount(); ++col) {
+                                    QTableWidgetItem *item = tableWidget->item(row, col);
+                                    if (item) {
+                                        out << item->text() << " "; // 将单元格的数据写入到文本文件中
+                                    }
+                                }
+                                out << "\n"; // 换行
+                            }
+
+                            file.close(); // 关闭文件
+                        });
+                    }
+
+            }
+     }
+
+    QWidget *tabContent = ui->tabWidget->widget(0); // 获取第四个选项卡的页面
+
+    if (tabContent) {
+
+        QLabel *label = tabContent->findChild<QLabel*>("labelInfo"); // 使用控件的名称或对象名称查找控件
+
+        if (label) {
+
+            label->move(0, tab4Content->height()-label->height()); // 移动标签
+            //label->setFixedSize(tab4Content->width(), tab4Content->height());
+
+            QPixmap image(":/new/image/seek.jpg"); // 加载图片
+
+//            // 设置图片并让其适应标签大小
+            label->setPixmap(image.scaled(label->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+
+//            // 设置标签大小策略
+            label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+
+//            // 允许图片缩放以适应标签
+            label->setScaledContents(true);
+
+            label->lower();
+        }
+
+
+
+        QPushButton *pushButtonBack = tabContent->findChild<QPushButton*>("pushButtonBack0"); // 使用控件的名称或对象名称查找控件
+
+            if (pushButtonBack) {
+                pushButtonBack->setFixedSize(150,80);
+                pushButtonBack->move(tab4Content->width()-300,
+                                 tab4Content->height()-300); // 移动 QPushButton 控件
+                pushButtonBack->setStyleSheet("background-color: lightblue;");
+
+                connect(pushButtonBack, &QPushButton::clicked, [=](){
+                    emit back();
+                });
+            }
+
+        QPushButton *pushButton = tabContent->findChild<QPushButton*>("pushButton"); // 使用控件的名称或对象名称查找控件
+
+            if (pushButton) {
+                pushButton->setFixedSize(150,80);
+                pushButton->move(tab4Content->width()-300,
+                                 tab4Content->height()-200); // 移动 QPushButton 控件
+                pushButton->setStyleSheet("background-color: lightblue;");
+
+                connect(pushButton, &QPushButton::clicked, [=](){
+                    this->close();
+                });
+            }
+
+
+
+            QTableWidget *tableWidget = tabContent->findChild<QTableWidget*>("tableWidget_2"); // 使用控件的名称或对象名称查找控件
+
+            if (tableWidget) {
+
+
+                tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+                tableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+                tableWidget->setStyleSheet("QTableWidget { background-color: lightblue; }");
+
+                tableWidget->move(tab4Content->width()/2-tableWidget->width()/2, 0); // 移动 QTableWidget 控件
+
+                QLineEdit *textEdit = tabContent->findChild<QLineEdit*>("lineEditUser"); // 使用控件的名称或对象名称查找控件
+
+                    if (textEdit) {
+
+                        textEdit->setStyleSheet("background-color: lightblue;");
+                        textEdit->move(tab4Content->width()/4,  tab4Content->height()-300); // 移动 QTextEdit 控件
+                    }
+
+                    QLineEdit *textEdit1 = tabContent->findChild<QLineEdit*>("lineEditInput"); // 使用控件的名称或对象名称查找控件
+
+                        if (textEdit1) {
+
+                            textEdit1->move(tab4Content->width()/4 + 150, tab4Content->height()-300); // 移动 QTextEdit 控件
+                        }
+
+
+                        QPushButton *pushButton = tabContent->findChild<QPushButton*>("pushButtonSure"); // 使用控件的名称或对象名称查找控件
+
+                            if (pushButton) {
+
+                                pushButton->move(tab4Content->width()/4 + 300,
+                                                 tab4Content->height()-300); // 移动 QPushButton 控件
+                                pushButton->setStyleSheet("background-color: lightblue;");
+
+                                connect(pushButton, &QPushButton::clicked, [=](){
+                                       QString text = textEdit1->text();
+
+                                       textEdit1->clear();
+
+                                       QFile file(userPath); // 替换为你的文本文件路径
+                                       if (!file.open(QIODevice::ReadOnly)) {
+                                           // 文件打开失败，处理错误
+                                           qDebug() << "fail to open the file";
+                                           return;
+                                       }
+
+                                       // 读取文件内容
+                                       QTextStream in(&file);
+                                       QStringList stringList;
+                                       // 逐行读取文件内容并加载到 QTableWidget 中
+
+                                       bool isExist = false;
+                                       while (!in.atEnd()) {
+                                           QString line = in.readLine();
+                                           QStringList fields = line.split(" ", QString::SkipEmptyParts); // 假设数据是用制表符分隔的，可以根据实际情况修改分隔符
+                                           if(fields[0] == text){
+                                               isExist = true;
+                                               if(fields[3] == "否"){
+                                                   QMessageBox::information(this, "提示","未预订");
+                                                   return;
+                                               }
+                                               for(int i = 4; i < 9; i++){
+                                                   stringList.append(fields[i]);
+                                               }
+                                           }
+                                       }
+
+                                       if(!isExist){
+                                           QMessageBox::warning(this, "用户不存在", "请重试");
+                                           return;
+                                       }
+
+                                       file.close(); // 关闭文件
+
+
+
+                                       QFile file1(airplanePath); // 替换为你的文本文件路径
+                                       if (!file1.open(QIODevice::ReadOnly)) {
+                                           // 文件打开失败，处理错误
+                                           qDebug() << "fail to open the file";
+                                           return;
+                                       }
+
+
+                                       QTextStream in1(&file1);
+                                       int row = 0;
+                                       // 逐行读取文件内容并加载到 QTableWidget 中
+                                       while (!in1.atEnd()) {
+                                           QString line = in1.readLine();
+                                           QStringList fields = line.split(" ", QString::SkipEmptyParts); // 假设数据是用制表符分隔的，可以根据实际情况修改分隔符
+                                           for(int i = 0; i < stringList.count(); i++){
+
+                                               if(fields[0] == stringList[i]){
+                                                   tableWidget->insertRow(row);
+
+                                                   for (int column = 0; column < tableWidget->columnCount(); ++column) {
+
+                                                       QTableWidgetItem *item = new QTableWidgetItem(fields[column]);
+
+                                                       QFont font;
+                                                       font.setPointSize(20);
+                                                       item->setFont(font);
+                                                       item->setTextAlignment(Qt::AlignCenter);
+                                                       item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+
+                                                       tableWidget->setItem(row, column, item);
+                                                   }
+                                                   row++;
+                                               }
+                                           }
+                                       }
+
+                                       file1.close(); // 关闭文件
+
+
+
+
+                                });
+                            }
+
+
+                            QPushButton *pushButtonClear = tabContent->findChild<QPushButton*>("pushButtonClear"); // 使用控件的名称或对象名称查找控件
+
+                                if (pushButtonClear) {
+
+                                    pushButtonClear->move(tab4Content->width()/4 + 450,
+                                                     tab4Content->height()-300); // 移动 QPushButton 控件
+                                    pushButtonClear->setStyleSheet("background-color: lightblue;");
+
+                                    connect(pushButtonClear, &QPushButton::clicked, [=](){
+                                        int rowCount = tableWidget->rowCount();
+
+                                        // 从最后一行开始逐行删除
+                                        for (int i = rowCount - 1; i >= 0; --i) {
+                                            tableWidget->removeRow(i);
+                                        }
+                                    });
+                                }
+
+
+                }
+
+
+    }
+
+}
+
+void ManInterface::paintEvent(QPaintEvent *event){
+
+    QPainter painter(this);
+    QPixmap pix;
+    //图片路径   :/.../
+    pix.load(":/new/image/nucfont.jpg");
+    pix = pix.scaled(pix.width() / 2, pix.height());
+    painter.drawPixmap(0,0,pix.width()*2.7,80,pix);
+
+}
+
+ManInterface::~ManInterface()
+{
+    delete ui;
+}

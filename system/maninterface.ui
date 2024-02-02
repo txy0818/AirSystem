@@ -1,0 +1,1414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ManInterface</class>
+ <widget class="QMainWindow" name="ManInterface">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1340</width>
+    <height>960</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1340</width>
+    <height>960</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1340</width>
+    <height>960</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>太原航班系统-管理端</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="resource.qrc">
+    <normaloff>:/new/image/nuc.ico</normaloff>:/new/image/nuc.ico</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QTabWidget" name="tabWidget">
+    <property name="geometry">
+     <rect>
+      <x>-140</x>
+      <y>-70</y>
+      <width>1340</width>
+      <height>960</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>1340</width>
+      <height>960</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>1340</width>
+      <height>960</height>
+     </size>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>40</pointsize>
+     </font>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <property name="tabBarAutoHide">
+     <bool>false</bool>
+    </property>
+    <widget class="QWidget" name="tab0">
+     <property name="minimumSize">
+      <size>
+       <width>1340</width>
+       <height>960</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>1340</width>
+       <height>960</height>
+      </size>
+     </property>
+     <attribute name="title">
+      <string>票务信息</string>
+     </attribute>
+     <widget class="QPushButton" name="pushButtonQuit0">
+      <property name="geometry">
+       <rect>
+        <x>450</x>
+        <y>260</y>
+        <width>84</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>退出</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonBack0">
+      <property name="geometry">
+       <rect>
+        <x>660</x>
+        <y>100</y>
+        <width>150</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>150</width>
+        <height>80</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>80</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="text">
+       <string>返回</string>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="tableWidgetInfo">
+      <property name="geometry">
+       <rect>
+        <x>840</x>
+        <y>130</y>
+        <width>1000</width>
+        <height>600</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>1000</width>
+        <height>600</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>1000</width>
+        <height>600</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>30</pointsize>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <attribute name="horizontalHeaderMinimumSectionSize">
+       <number>55</number>
+      </attribute>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>100</number>
+      </attribute>
+      <column>
+       <property name="text">
+        <string>航班号</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>起点</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>终点</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>起飞时间</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>到达时间</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>航空公司</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>票价</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>折扣</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>座位数</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>剩余座位</string>
+       </property>
+      </column>
+     </widget>
+     <widget class="QLabel" name="labelInfo">
+      <property name="geometry">
+       <rect>
+        <x>480</x>
+        <y>-20</y>
+        <width>1340</width>
+        <height>400</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>1340</width>
+        <height>400</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>1340</width>
+        <height>400</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEditUser">
+      <property name="geometry">
+       <rect>
+        <x>770</x>
+        <y>20</y>
+        <width>100</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>100</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>100</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="text">
+       <string>用户名</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEditInput">
+      <property name="geometry">
+       <rect>
+        <x>910</x>
+        <y>20</y>
+        <width>100</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>100</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>100</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonSure">
+      <property name="geometry">
+       <rect>
+        <x>1060</x>
+        <y>20</y>
+        <width>100</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>100</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>100</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="text">
+       <string>确认</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonClear">
+      <property name="geometry">
+       <rect>
+        <x>1180</x>
+        <y>20</y>
+        <width>100</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>100</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>100</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="text">
+       <string>清空</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab1">
+     <property name="minimumSize">
+      <size>
+       <width>1340</width>
+       <height>960</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>1340</width>
+       <height>960</height>
+      </size>
+     </property>
+     <attribute name="title">
+      <string>用户管理</string>
+     </attribute>
+     <widget class="QPushButton" name="pushButtonQuit1">
+      <property name="geometry">
+       <rect>
+        <x>590</x>
+        <y>30</y>
+        <width>150</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>150</width>
+        <height>80</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>80</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>退出</string>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="tableWidgetUser">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>120</y>
+        <width>900</width>
+        <height>590</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>900</width>
+        <height>590</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>900</width>
+        <height>590</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>30</pointsize>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>100</number>
+      </attribute>
+      <column>
+       <property name="text">
+        <string>用户名</string>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>密码</string>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>id</string>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>是否买票</string>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>航班1</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>航班2</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>航班3</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>航班4</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>航班5</string>
+       </property>
+      </column>
+     </widget>
+     <widget class="QPushButton" name="pushButtonBack1">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>30</y>
+        <width>150</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>150</width>
+        <height>80</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>80</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="text">
+       <string>返回</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label1">
+      <property name="geometry">
+       <rect>
+        <x>860</x>
+        <y>100</y>
+        <width>1340</width>
+        <height>960</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>1340</width>
+        <height>960</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>1340</width>
+        <height>960</height>
+       </size>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="resource.qrc">:/new/image/userman.jpg</pixmap>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonEdit">
+      <property name="geometry">
+       <rect>
+        <x>810</x>
+        <y>30</y>
+        <width>150</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>150</width>
+        <height>80</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>80</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="text">
+       <string>编辑</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonEdit1">
+      <property name="geometry">
+       <rect>
+        <x>1010</x>
+        <y>30</y>
+        <width>150</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>150</width>
+        <height>80</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>80</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="text">
+       <string>确认</string>
+      </property>
+     </widget>
+     <zorder>tableWidgetUser</zorder>
+     <zorder>pushButtonBack1</zorder>
+     <zorder>pushButtonQuit1</zorder>
+     <zorder>label1</zorder>
+     <zorder>pushButtonEdit</zorder>
+     <zorder>pushButtonEdit1</zorder>
+    </widget>
+    <widget class="QWidget" name="tab2">
+     <property name="minimumSize">
+      <size>
+       <width>1340</width>
+       <height>960</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>1340</width>
+       <height>960</height>
+      </size>
+     </property>
+     <attribute name="title">
+      <string>航班管理</string>
+     </attribute>
+     <widget class="QPushButton" name="pushButtonQuit2">
+      <property name="geometry">
+       <rect>
+        <x>520</x>
+        <y>360</y>
+        <width>84</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>退出</string>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="tableWidgetAir">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>100</y>
+        <width>1030</width>
+        <height>600</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>1030</width>
+        <height>600</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>1030</width>
+        <height>600</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>30</pointsize>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <column>
+       <property name="text">
+        <string>航班号</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>起点</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>终点</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>起飞时间</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>到达时间</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>航空公司</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>票价</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>折扣</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>座位数</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>剩余座位</string>
+       </property>
+      </column>
+     </widget>
+     <widget class="QPushButton" name="pushButtonChange">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>710</y>
+        <width>80</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>80</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>80</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="text">
+       <string>修改</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonRight">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>710</y>
+        <width>80</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>80</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>80</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>确认</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonAdd">
+      <property name="geometry">
+       <rect>
+        <x>580</x>
+        <y>720</y>
+        <width>80</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>80</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>80</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="text">
+       <string>新增</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonRight1">
+      <property name="geometry">
+       <rect>
+        <x>710</x>
+        <y>720</y>
+        <width>80</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>80</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>80</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="text">
+       <string>确认</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>770</y>
+        <width>80</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>80</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>80</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <item>
+       <property name="text">
+        <string>航班号</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>起点</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>终点</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>起飞时间</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>到达时间</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>航空公司</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>票价</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>折扣</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>座位数</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>剩余座位</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLineEdit" name="lineEditSeek">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>770</y>
+        <width>80</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>80</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>80</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonRight2">
+      <property name="geometry">
+       <rect>
+        <x>570</x>
+        <y>770</y>
+        <width>80</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>80</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>80</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="text">
+       <string>确认</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonRecover">
+      <property name="geometry">
+       <rect>
+        <x>710</x>
+        <y>770</y>
+        <width>80</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>80</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>80</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="text">
+       <string>恢复全部</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonBack2">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>10</y>
+        <width>150</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>150</width>
+        <height>80</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>80</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="text">
+       <string>返回</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label2">
+      <property name="geometry">
+       <rect>
+        <x>780</x>
+        <y>60</y>
+        <width>1340</width>
+        <height>960</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>1340</width>
+        <height>960</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>1340</width>
+        <height>960</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="resource.qrc">:/new/image/adminman.jpg</pixmap>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab3">
+     <property name="minimumSize">
+      <size>
+       <width>1340</width>
+       <height>960</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>1340</width>
+       <height>960</height>
+      </size>
+     </property>
+     <attribute name="title">
+      <string>首页</string>
+     </attribute>
+     <widget class="QLabel" name="label3">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>140</y>
+        <width>63</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>20</y>
+        <width>351</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>欢迎登陆管理系统</string>
+      </property>
+      <property name="frame">
+       <bool>false</bool>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonQuit3">
+      <property name="geometry">
+       <rect>
+        <x>650</x>
+        <y>230</y>
+        <width>150</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>150</width>
+        <height>80</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>80</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>退出</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonBack3">
+      <property name="geometry">
+       <rect>
+        <x>830</x>
+        <y>230</y>
+        <width>150</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>150</width>
+        <height>80</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>80</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="text">
+       <string>返回</string>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="textEdit">
+      <property name="geometry">
+       <rect>
+        <x>790</x>
+        <y>20</y>
+        <width>104</width>
+        <height>70</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEditAnnounce">
+      <property name="geometry">
+       <rect>
+        <x>640</x>
+        <y>40</y>
+        <width>100</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>100</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>100</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="text">
+       <string>公告栏</string>
+      </property>
+      <property name="frame">
+       <bool>false</bool>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEditPut">
+      <property name="geometry">
+       <rect>
+        <x>620</x>
+        <y>140</y>
+        <width>200</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>200</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>200</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonPut">
+      <property name="geometry">
+       <rect>
+        <x>850</x>
+        <y>140</y>
+        <width>100</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>100</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>100</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="text">
+       <string>发公告</string>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <resources>
+  <include location="resource.qrc"/>
+ </resources>
+ <connections/>
+</ui>

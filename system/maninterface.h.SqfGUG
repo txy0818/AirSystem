@@ -1,0 +1,34 @@
+#ifndef MANINTERFACE_H
+#define MANINTERFACE_H
+
+#include <QMainWindow>
+#include "airplane.h"
+
+namespace Ui {
+class ManInterface;
+}
+
+class ManInterface : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+
+
+    explicit ManInterface(QWidget *parent = nullptr);
+    ~ManInterface();
+
+    void paintEvent(QPaintEvent *event);
+    void createAirWidget(QTableWidget* tableWidget);
+    void flushAirWidget(QTableWidget* tableWidget, QVector<QStringList> stringList);
+    void flushUserWidget(QTableWidget* tableWidget);
+
+
+private:
+    Ui::ManInterface *ui;
+
+signals:
+    void back();
+};
+
+#endif // MANINTERFACE_H
